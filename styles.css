@@ -1,0 +1,2072 @@
+/* ==========================================================================
+   Wentworth C of E Junior & Infant School — Modern Redesign Stylesheet (Refined)
+   Inspired by Hoyland Common Primary's clean band rhythm & Wentworth's
+   1837 heraldic crest (Forest Green, Heritage Gold, Deep Charcoal).
+   ========================================================================== */
+
+:root {
+  --wentworth-forest: #1b5e3f;
+  --wentworth-forest-deep: #13442d;
+  --wentworth-meadow: #3da869;
+  --wentworth-lime: #7bc14d;
+  --wentworth-gold: #d9a520;
+  --wentworth-gold-soft: #f6e7bd;
+  --wentworth-sky: #5cc0f0;
+
+  --surface-white: #ffffff;
+  --surface-stone: #f5f7f5;
+  --surface-tint: #eef5f0;
+  --surface-dark: #181d1a;
+  --surface-charcoal: #202622;
+  --surface-charcoal-card: #29312c;
+
+  --ink-primary: #1f2622;
+  --ink-secondary: #46524b;
+  --ink-muted: #5d6a63;
+  --ink-on-dark: #f4f7f5;
+  --ink-on-dark-muted: #bcc8c1;
+
+  --border-subtle: #e2e8e4;
+  --border-dark: rgba(255, 255, 255, 0.12);
+
+  --header-height-initial: 92px;
+  --header-height-shrunk: 68px;
+  --container-max: 1200px;
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+
+  --shadow-sm: 0 2px 10px rgba(19, 32, 24, 0.06);
+  --shadow-md: 0 10px 30px rgba(19, 32, 24, 0.1);
+  --shadow-drop-xl: 0 20px 50px rgba(19, 32, 24, 0.18);
+
+  --font-sans: 'Plus Jakarta Sans', 'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-serif: 'Lora', Georgia, 'Times New Roman', serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--header-height-initial);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--ink-primary);
+  background: var(--surface-white);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: 3px solid var(--wentworth-gold);
+  outline-offset: 2px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: fixed;
+  top: -100px;
+  left: 16px;
+  z-index: 2000;
+  background: var(--wentworth-gold);
+  color: var(--surface-dark);
+  font-weight: 700;
+  padding: 10px 18px;
+  border-radius: var(--radius-sm);
+  transition: top 0.15s ease;
+}
+
+.skip-link:focus {
+  top: 16px;
+}
+
+.container {
+  width: min(var(--container-max), calc(100% - 40px));
+  margin-inline: auto;
+}
+
+/* ==========================================================================
+   Sticky Shrinking Header (modern-web-guidance: shrinking-header-on-scroll)
+   ========================================================================== */
+
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--header-height-initial);
+  z-index: 1000;
+  background: rgba(19, 34, 26, 0.78);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  transition: background-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.site-header.is-scrolled {
+  background: rgba(24, 29, 26, 0.97);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.28);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports ((animation-timeline: scroll()) and (animation-range: 0% 100%)) {
+    @keyframes shrink-header {
+      from {
+        height: var(--header-height-initial);
+        background-color: rgba(19, 34, 26, 0.78);
+        box-shadow: none;
+      }
+      to {
+        height: var(--header-height-shrunk);
+        background-color: rgba(24, 29, 26, 0.97);
+        box-shadow: 0 8px 28px rgba(0, 0, 0, 0.28);
+      }
+    }
+
+    @keyframes shrink-scroll-padding {
+      from {
+        scroll-padding-top: var(--header-height-initial);
+      }
+      to {
+        scroll-padding-top: var(--header-height-shrunk);
+      }
+    }
+
+    html {
+      animation: shrink-scroll-padding auto linear both;
+      animation-timeline: scroll(block root);
+      animation-range: 0px 140px;
+    }
+
+    .site-header {
+      animation: shrink-header auto linear both;
+      animation-timeline: scroll(block root);
+      animation-range: 0px 140px;
+    }
+
+    @keyframes shrink-crest {
+      from {
+        transform: scale(1);
+      }
+      to {
+        transform: scale(0.84);
+      }
+    }
+
+    .brand-crest {
+      animation: shrink-crest auto linear both;
+      animation-timeline: scroll(block root);
+      animation-range: 0px 140px;
+    }
+  }
+}
+
+.header-inner {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.brand-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.brand-crest {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #ffffff;
+  padding: 2px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.22);
+  flex-shrink: 0;
+  transform-origin: left center;
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+}
+
+.brand-name {
+  font-weight: 800;
+  font-size: 1.04rem;
+  letter-spacing: -0.01em;
+  color: #ffffff;
+  white-space: nowrap;
+}
+
+.brand-sub {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--wentworth-gold-soft);
+  margin-top: 2px;
+}
+
+.desktop-nav {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.nav-item {
+  position: relative;
+}
+
+.nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 10px 12px;
+  font-size: 0.81rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.92);
+  border-bottom: 2px solid transparent;
+  transition: color 0.18s ease, border-color 0.18s ease;
+}
+
+.nav-link:hover,
+.nav-link.is-active {
+  color: #ffffff;
+  border-bottom-color: var(--wentworth-meadow);
+}
+
+.nav-chevron {
+  width: 12px;
+  height: 12px;
+  opacity: 0.75;
+  transition: transform 0.2s ease;
+}
+
+.nav-item:hover .nav-chevron,
+.nav-item:focus-within .nav-chevron {
+  transform: rotate(180deg);
+}
+
+/* Hoyland-inspired dark dropdown with crisp green top border */
+.nav-dropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  min-width: 245px;
+  background: var(--surface-dark);
+  border-top: 3px solid var(--wentworth-meadow);
+  border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+  padding: 10px 0;
+  list-style: none;
+  margin: 0;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(6px);
+  transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s ease;
+}
+
+.nav-item:hover .nav-dropdown,
+.nav-item:focus-within .nav-dropdown {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.nav-dropdown a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 18px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.88);
+  transition: background-color 0.15s ease, color 0.15s ease, padding-left 0.15s ease;
+}
+
+.nav-dropdown a:hover {
+  background: rgba(61, 168, 105, 0.16);
+  color: #ffffff;
+  padding-left: 22px;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header-portal-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 13px;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.94);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  transition: background-color 0.18s ease, border-color 0.18s ease;
+}
+
+.header-portal-link:hover {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.52);
+}
+
+.header-visit-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 15px;
+  border-radius: var(--radius-sm);
+  background: var(--wentworth-meadow);
+  color: #ffffff;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border: 0;
+  transition: background-color 0.18s ease, transform 0.15s ease;
+}
+
+.header-visit-btn:hover {
+  background: #33945b;
+  transform: translateY(-1px);
+}
+
+.mobile-menu-btn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  color: #ffffff;
+}
+
+/* ==========================================================================
+   Hero Section — Asymmetric Modern Editorial Split
+   Distinct photography: Hero exclusively uses reading-corner.jpg
+   ========================================================================== */
+
+.hero {
+  position: relative;
+  padding: calc(var(--header-height-initial) + 46px) 0 78px;
+  background:
+    radial-gradient(circle at 12% 20%, rgba(61, 168, 105, 0.22) 0%, transparent 48%),
+    radial-gradient(circle at 86% 78%, rgba(217, 165, 32, 0.15) 0%, transparent 45%),
+    linear-gradient(145deg, #102a1d 0%, #173c2a 52%, #1a2420 100%);
+  color: #ffffff;
+  overflow: hidden;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.055) 1px, transparent 1px);
+  background-size: 28px 28px;
+  pointer-events: none;
+}
+
+.hero-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  gap: 56px;
+  align-items: center;
+}
+
+.hero-eyebrow {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.09);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  font-size: 0.77rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--wentworth-gold-soft);
+  margin-bottom: 22px;
+}
+
+.hero-eyebrow-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--wentworth-meadow);
+}
+
+.hero-title {
+  margin: 0 0 20px;
+  font-size: clamp(2.15rem, 3.8vw, 3.3rem);
+  font-weight: 800;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+}
+
+.hero-title span {
+  color: #8ee0ad;
+}
+
+.hero-lead {
+  margin: 0 0 28px;
+  font-size: 1.06rem;
+  line-height: 1.7;
+  color: rgba(244, 247, 245, 0.9);
+  max-width: 54ch;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-bottom: 32px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 13px 24px;
+  border-radius: var(--radius-sm);
+  font-size: 0.86rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border: 2px solid transparent;
+  transition: transform 0.16s ease, background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn-primary {
+  background: var(--wentworth-meadow);
+  color: #ffffff;
+}
+
+.btn-primary:hover {
+  background: #33945b;
+}
+
+.btn-outline-light {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.5);
+  color: #ffffff;
+}
+
+.btn-outline-light:hover {
+  background: #ffffff;
+  color: var(--wentworth-forest-deep);
+  border-color: #ffffff;
+}
+
+.btn-outline-dark {
+  background: transparent;
+  border-color: var(--wentworth-forest);
+  color: var(--wentworth-forest);
+}
+
+.btn-outline-dark:hover {
+  background: var(--wentworth-forest);
+  color: #ffffff;
+}
+
+.hero-scripture {
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.84);
+}
+
+.hero-scripture strong {
+  color: var(--wentworth-gold-soft);
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 600;
+}
+
+/* Single Commanding Hero Portrait Frame + Non-Overlapping Inspection Card */
+.hero-media {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 440px;
+  width: 100%;
+  margin-inline: auto;
+}
+
+.hero-photo-frame {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: 0 26px 60px rgba(0, 0, 0, 0.38);
+  border: 3px solid rgba(255, 255, 255, 0.18);
+  background: var(--surface-charcoal);
+  aspect-ratio: 4 / 4.25;
+}
+
+.hero-photo-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 42%;
+}
+
+.hero-inspection-card {
+  background: rgba(255, 255, 255, 0.97);
+  color: var(--ink-primary);
+  padding: 15px 18px;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-drop-xl);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  border-left: 4px solid var(--wentworth-gold);
+}
+
+.ofsted-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  background: var(--surface-tint);
+  color: var(--wentworth-forest);
+  font-weight: 800;
+  font-size: 0.78rem;
+  flex-shrink: 0;
+  text-align: center;
+  line-height: 1.15;
+}
+
+.hero-inspection-card strong {
+  display: block;
+  font-size: 0.88rem;
+  color: var(--ink-primary);
+  margin-bottom: 2px;
+}
+
+.hero-inspection-card span {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--ink-secondary);
+  line-height: 1.38;
+}
+
+/* ==========================================================================
+   Shared Section Rhythm & Hoyland-style Accent Dividers
+   ========================================================================== */
+
+.section {
+  padding: 88px 0;
+}
+
+.section--stone {
+  background: var(--surface-stone);
+}
+
+.section--dark {
+  background: var(--surface-charcoal);
+  color: var(--ink-on-dark);
+}
+
+.section-header {
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto 50px;
+}
+
+.section-header--left {
+  text-align: left;
+  margin-inline: 0;
+  margin-bottom: 26px;
+}
+
+.section-kicker {
+  display: inline-block;
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--wentworth-forest);
+  margin-bottom: 10px;
+}
+
+.section--dark .section-kicker {
+  color: var(--wentworth-sky);
+}
+
+.section-title {
+  margin: 0;
+  font-size: clamp(1.85rem, 3vw, 2.5rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.18;
+  color: var(--ink-primary);
+}
+
+.section--dark .section-title {
+  color: #ffffff;
+}
+
+.accent-rule {
+  width: 44px;
+  height: 3px;
+  background: var(--wentworth-meadow);
+  border-radius: 99px;
+  margin: 18px auto 18px;
+}
+
+.section-header--left .accent-rule {
+  margin-inline: 0;
+}
+
+.section-intro {
+  margin: 0;
+  font-size: 1.02rem;
+  color: var(--ink-secondary);
+}
+
+.section--dark .section-intro {
+  color: var(--ink-on-dark-muted);
+}
+
+/* Scroll-Driven Reveal Effects (modern-web-guidance: scroll-entry-exit-effects) */
+@media (prefers-reduced-motion: no-preference) {
+  @supports ((animation-timeline: view()) and (animation-range: entry)) {
+    @keyframes reveal-up {
+      from {
+        opacity: 0.15;
+        transform: translateY(24px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .reveal-on-scroll {
+      animation: reveal-up auto linear both;
+      animation-timeline: view(block);
+      animation-range: entry 0% entry 72%;
+    }
+  }
+}
+
+/* ==========================================================================
+   Band 1 — At a Glance / Highlights (Hoyland Statistics Band inspired)
+   ========================================================================== */
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.stat-card {
+  text-align: center;
+  padding: 28px 20px;
+  border-radius: var(--radius-md);
+  background: var(--surface-white);
+  border: 1px solid var(--border-subtle);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.stat-label {
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-primary);
+  margin-bottom: 10px;
+}
+
+.stat-value {
+  font-size: clamp(2.15rem, 3.2vw, 2.85rem);
+  font-weight: 800;
+  line-height: 1.08;
+  color: var(--wentworth-forest);
+  letter-spacing: -0.02em;
+}
+
+.stat-value span {
+  font-size: 1.15rem;
+  color: var(--wentworth-meadow);
+  font-weight: 700;
+  margin-left: 3px;
+}
+
+.stat-divider {
+  width: 36px;
+  height: 1px;
+  background: var(--border-subtle);
+  margin: 14px auto 12px;
+}
+
+.stat-sub {
+  font-size: 0.85rem;
+  color: var(--ink-muted);
+}
+
+/* ==========================================================================
+   Band 2 — Headteacher's Welcome (Distinct classroom-learning.jpg photo +
+   clean non-overlapping School Day bar below)
+   ========================================================================== */
+
+.welcome-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.06fr) minmax(0, 0.94fr);
+  gap: 52px;
+  align-items: center;
+}
+
+.welcome-quote {
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  font-style: italic;
+  color: var(--wentworth-forest-deep);
+  background: var(--surface-tint);
+  border-left: 4px solid var(--wentworth-meadow);
+  padding: 16px 20px;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  margin: 0 0 20px;
+}
+
+.welcome-copy p {
+  margin: 0 0 16px;
+  color: var(--ink-secondary);
+}
+
+.welcome-signature {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 24px 0 26px;
+}
+
+.signature-avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--wentworth-forest);
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 1rem;
+  display: grid;
+  place-items: center;
+  border: 2px solid var(--wentworth-gold);
+}
+
+.signature-name {
+  font-weight: 800;
+  color: var(--ink-primary);
+  line-height: 1.2;
+}
+
+.signature-role {
+  font-size: 0.84rem;
+  color: var(--ink-muted);
+}
+
+.welcome-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.welcome-photo-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.welcome-photo {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-drop-xl);
+  aspect-ratio: 4 / 3.35;
+}
+
+.welcome-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 45%;
+}
+
+.welcome-day-card {
+  background: #ffffff;
+  border-radius: var(--radius-md);
+  padding: 18px 20px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-subtle);
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.day-pill {
+  padding-right: 10px;
+  border-right: 1px solid var(--border-subtle);
+}
+
+.day-pill:last-child {
+  border-right: 0;
+  padding-right: 0;
+}
+
+.day-pill strong {
+  display: block;
+  font-size: 0.92rem;
+  color: var(--wentworth-forest);
+  white-space: nowrap;
+}
+
+.day-pill span {
+  display: block;
+  font-size: 0.78rem;
+  color: var(--ink-muted);
+  margin-top: 2px;
+}
+
+/* ==========================================================================
+   Band 3 — Full-Width Gradient Banner with Subtle Botanical Woodland Motif
+   ========================================================================== */
+
+.offer-banner {
+  background: linear-gradient(100deg, #144d33 0%, #1f7349 52%, #3ca465 100%);
+  color: #ffffff;
+  padding: 76px 0;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.offer-botanical-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.14;
+}
+
+.offer-banner .container {
+  position: relative;
+  z-index: 1;
+}
+
+.offer-banner h2 {
+  margin: 0 0 12px;
+  font-size: clamp(1.75rem, 3vw, 2.4rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.offer-banner p {
+  margin: 0 auto 28px;
+  max-width: 700px;
+  font-size: 1.04rem;
+  color: rgba(255, 255, 255, 0.94);
+}
+
+.offer-pills {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.offer-pill {
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.34);
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-size: 0.83rem;
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   Band 4 — Our Christian Vision & 6Rs Values (WCAG AA High-Contrast Citations)
+   ========================================================================== */
+
+.values-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.value-card {
+  background: var(--surface-white);
+  border: 1px solid var(--border-subtle);
+  border-top: 4px solid var(--card-accent, var(--wentworth-meadow));
+  border-radius: var(--radius-md);
+  padding: 26px 24px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.value-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.value-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--card-accent, #3da869) 14%, white);
+  color: var(--card-ink, var(--wentworth-forest));
+  font-weight: 800;
+  font-size: 1rem;
+  margin-bottom: 14px;
+}
+
+.value-card h3 {
+  margin: 0 0 8px;
+  font-size: 1.18rem;
+  font-weight: 800;
+  color: var(--ink-primary);
+}
+
+.value-card p {
+  margin: 0 0 16px;
+  font-size: 0.93rem;
+  color: var(--ink-secondary);
+  flex: 1;
+}
+
+.value-ref {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: var(--card-ink, var(--wentworth-forest-deep));
+  text-transform: uppercase;
+}
+
+/* ==========================================================================
+   Band 5 — Parent Quick Hub & Working Interactive Diary Dates
+   Aligned flush on desktop via stretched flex stack + Office/Admissions bar
+   ========================================================================== */
+
+.hub-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  gap: 32px;
+  align-items: stretch;
+}
+
+.hub-left-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.quick-links-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-auto-rows: 1fr;
+  gap: 16px;
+  flex: 1;
+}
+
+.quick-tile {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 18px 20px;
+  border-radius: var(--radius-md);
+  background: var(--surface-white);
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+  text-align: left;
+  width: 100%;
+  height: 100%;
+}
+
+.quick-tile:hover {
+  transform: translateY(-3px);
+  border-color: var(--wentworth-meadow);
+  box-shadow: var(--shadow-md);
+}
+
+.quick-tile-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  background: var(--surface-tint);
+  color: var(--wentworth-forest);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.quick-tile h3 {
+  margin: 0 0 4px;
+  font-size: 0.98rem;
+  font-weight: 800;
+  color: var(--ink-primary);
+}
+
+.quick-tile p {
+  margin: 0;
+  font-size: 0.84rem;
+  color: var(--ink-secondary);
+  line-height: 1.45;
+}
+
+.hub-office-bar {
+  background: var(--wentworth-forest-deep);
+  color: #ffffff;
+  border-radius: var(--radius-md);
+  padding: 18px 22px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  box-shadow: var(--shadow-sm);
+}
+
+.hub-office-bar strong {
+  display: block;
+  font-size: 0.94rem;
+  color: #ffffff;
+}
+
+.hub-office-bar span {
+  display: block;
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.84);
+}
+
+.hub-office-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.office-pill-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 0.8rem;
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.14);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  transition: background-color 0.16s ease;
+}
+
+.office-pill-link:hover {
+  background: var(--wentworth-meadow);
+  border-color: var(--wentworth-meadow);
+}
+
+.events-panel {
+  background: var(--surface-white);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.events-header {
+  padding: 20px 24px 16px;
+  background: var(--wentworth-forest-deep);
+  color: #ffffff;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.events-header h3 {
+  margin: 0;
+  font-size: 1.12rem;
+  font-weight: 800;
+}
+
+.events-filters {
+  display: flex;
+  gap: 6px;
+}
+
+.filter-pill {
+  padding: 5px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: transparent;
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 0.76rem;
+  font-weight: 700;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.filter-pill.is-active,
+.filter-pill:hover {
+  background: var(--wentworth-meadow);
+  border-color: var(--wentworth-meadow);
+  color: #ffffff;
+}
+
+.events-list {
+  list-style: none;
+  margin: 0;
+  padding: 8px 20px 16px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.event-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 13px 4px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.event-row:last-child {
+  border-bottom: 0;
+}
+
+.event-date-box {
+  width: 52px;
+  height: 52px;
+  border-radius: 10px;
+  background: var(--surface-tint);
+  border: 1px solid rgba(27, 94, 63, 0.16);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.event-day {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--wentworth-forest);
+}
+
+.event-month {
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-muted);
+  margin-top: 3px;
+}
+
+.event-meta {
+  flex: 1;
+  min-width: 0;
+}
+
+.event-title {
+  font-weight: 700;
+  font-size: 0.94rem;
+  color: var(--ink-primary);
+}
+
+.event-sub {
+  font-size: 0.8rem;
+  color: var(--ink-muted);
+}
+
+.event-tag {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--surface-tint);
+  color: var(--wentworth-forest-deep);
+  white-space: nowrap;
+}
+
+/* ==========================================================================
+   Band 6 — Four Classes & School Day Interactive Tabs
+   ========================================================================== */
+
+.tabs-bar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.tab-btn {
+  padding: 11px 20px;
+  border-radius: 999px;
+  border: 1px solid var(--border-subtle);
+  background: var(--surface-white);
+  color: var(--ink-secondary);
+  font-size: 0.88rem;
+  font-weight: 700;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: all 0.18s ease;
+}
+
+.tab-btn:hover {
+  border-color: var(--wentworth-meadow);
+  color: var(--wentworth-forest);
+}
+
+.tab-btn[aria-selected='true'] {
+  background: var(--wentworth-forest);
+  border-color: var(--wentworth-forest);
+  color: #ffffff;
+  box-shadow: 0 6px 18px rgba(27, 94, 63, 0.25);
+}
+
+.tab-panel {
+  background: var(--surface-white);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 36px;
+  box-shadow: var(--shadow-md);
+}
+
+.tab-panel[hidden] {
+  display: none;
+}
+
+.class-detail-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  gap: 36px;
+  align-items: start;
+}
+
+.class-badge {
+  display: inline-block;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: var(--surface-tint);
+  color: var(--wentworth-forest-deep);
+  font-size: 0.76rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 12px;
+}
+
+.class-detail-grid h3 {
+  margin: 0 0 12px;
+  font-size: 1.65rem;
+  font-weight: 800;
+}
+
+.class-facts {
+  background: var(--surface-stone);
+  border-radius: var(--radius-md);
+  padding: 22px 24px;
+  border: 1px solid var(--border-subtle);
+}
+
+.class-facts h4 {
+  margin: 0 0 14px;
+  font-size: 0.84rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--wentworth-forest-deep);
+}
+
+.fact-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.fact-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  font-size: 0.9rem;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.fact-list li:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.fact-list strong {
+  color: var(--ink-primary);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.fact-list span {
+  color: var(--ink-secondary);
+  text-align: right;
+}
+
+.timetable-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 28px;
+}
+
+/* ==========================================================================
+   Band 7 — Staff Carousel (Hoyland Dark Charcoal Staff Section + Team Accents)
+   ========================================================================== */
+
+.staff-controls {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.carousel-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.06);
+  color: #ffffff;
+  display: grid;
+  place-items: center;
+  transition: background-color 0.18s ease, border-color 0.18s ease;
+}
+
+.carousel-btn:hover {
+  background: var(--wentworth-meadow);
+  border-color: var(--wentworth-meadow);
+}
+
+.staff-track {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: calc((100% - 48px) / 3);
+  gap: 24px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  padding-bottom: 8px;
+}
+
+.staff-track::-webkit-scrollbar {
+  display: none;
+}
+
+.staff-card {
+  scroll-snap-align: start;
+  background: var(--surface-charcoal-card);
+  border: 1px solid var(--border-dark);
+  border-radius: var(--radius-md);
+  padding: 30px 24px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.staff-team-pill {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--wentworth-gold-soft);
+  margin-bottom: 16px;
+}
+
+.staff-avatar {
+  width: 104px;
+  height: 104px;
+  border-radius: 50%;
+  margin: 0 auto 16px;
+  background: var(--avatar-bg, linear-gradient(145deg, var(--wentworth-forest) 0%, #2a6e4c 100%));
+  border: 3px solid var(--avatar-ring, rgba(217, 165, 32, 0.72));
+  display: grid;
+  place-items: center;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #ffffff;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
+}
+
+.staff-card h3 {
+  margin: 0 0 6px;
+  font-size: 1.18rem;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.staff-role {
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: var(--wentworth-sky);
+  margin-bottom: 12px;
+}
+
+.staff-bio {
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--ink-on-dark-muted);
+  line-height: 1.55;
+}
+
+.carousel-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 26px;
+}
+
+.carousel-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 0;
+  padding: 0;
+  background: rgba(255, 255, 255, 0.28);
+  transition: transform 0.18s ease, background-color 0.18s ease;
+}
+
+.carousel-dot.is-active {
+  background: var(--wentworth-meadow);
+  transform: scale(1.25);
+}
+
+/* ==========================================================================
+   Band 8 — Symmetric White Woods Primary Academy Trust Band
+   Full-width 6-color top Trust spectrum bar + centered balanced lockup
+   ========================================================================== */
+
+.trust-ribbon-band {
+  background: #ffffff;
+  position: relative;
+}
+
+.trust-spectrum-bar {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  height: 6px;
+  width: 100%;
+}
+
+.trust-spectrum-bar span:nth-child(1) { background: #8ac440; }
+.trust-spectrum-bar span:nth-child(2) { background: #2cb5b4; }
+.trust-spectrum-bar span:nth-child(3) { background: #5e609d; }
+.trust-spectrum-bar span:nth-child(4) { background: #d65896; }
+.trust-spectrum-bar span:nth-child(5) { background: #f36f21; }
+.trust-spectrum-bar span:nth-child(6) { background: #f8b924; }
+
+.trust-ribbon-inner {
+  padding: 36px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  text-align: center;
+}
+
+.trust-logo-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  width: 100%;
+}
+
+.trust-wing-line {
+  flex: 1;
+  max-width: 240px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border-subtle));
+}
+
+.trust-wing-line--right {
+  background: linear-gradient(270deg, transparent, var(--border-subtle));
+}
+
+.trust-logo-row img {
+  height: 52px;
+  width: auto;
+}
+
+.trust-four-cs {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--ink-muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* ==========================================================================
+   Band 9 — Clean 3-Column Dark Footer (Hoyland-inspired)
+   ========================================================================== */
+
+.site-footer {
+  background: var(--surface-dark);
+  color: var(--ink-on-dark-muted);
+  padding: 64px 0 34px;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.1fr) minmax(0, 0.95fr);
+  gap: 44px;
+  padding-bottom: 42px;
+  border-bottom: 1px solid var(--border-dark);
+}
+
+.footer-crest {
+  width: 82px;
+  height: 82px;
+  border-radius: 50%;
+  background: #ffffff;
+  padding: 3px;
+  margin-bottom: 16px;
+}
+
+.footer-motto {
+  font-family: var(--font-serif);
+  font-style: italic;
+  color: var(--wentworth-gold-soft);
+  margin: 0 0 16px;
+  font-size: 0.98rem;
+}
+
+.social-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  font-size: 0.82rem;
+  font-weight: 700;
+  transition: background-color 0.18s ease;
+}
+
+.social-btn:hover {
+  background: var(--wentworth-meadow);
+}
+
+.footer-heading {
+  margin: 0 0 18px;
+  font-size: 0.84rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--wentworth-meadow);
+}
+
+.footer-contact-list,
+.footer-link-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+  font-size: 0.92rem;
+}
+
+.footer-contact-list a,
+.footer-link-list a {
+  color: #ffffff;
+  transition: color 0.15s ease;
+}
+
+.footer-contact-list a:hover,
+.footer-link-list a:hover {
+  color: var(--wentworth-meadow);
+  text-decoration: underline;
+}
+
+.footer-bottom {
+  padding-top: 26px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  font-size: 0.82rem;
+}
+
+.footer-audit-trigger {
+  background: rgba(217, 165, 32, 0.14);
+  color: var(--wentworth-gold-soft);
+  border: 1px solid rgba(217, 165, 32, 0.35);
+  border-radius: 999px;
+  padding: 7px 14px;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.footer-audit-trigger:hover {
+  background: var(--wentworth-gold);
+  color: var(--surface-dark);
+}
+
+/* Smart Scroll-to-top button */
+.scroll-top-btn {
+  position: fixed;
+  right: 22px;
+  bottom: 22px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 0;
+  background: linear-gradient(135deg, var(--wentworth-forest) 0%, var(--wentworth-meadow) 100%);
+  color: #ffffff;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.25);
+  display: grid;
+  place-items: center;
+  z-index: 850;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(10px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.scroll-top-btn.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+/* ==========================================================================
+   Modal Dialogs (modern-web-guidance: light-dismiss-a-dialog)
+   ========================================================================== */
+
+dialog.modal-dialog {
+  width: min(620px, calc(100% - 32px));
+  max-height: calc(100svh - 48px);
+  border: 0;
+  border-radius: var(--radius-lg);
+  padding: 0;
+  background: #ffffff;
+  color: var(--ink-primary);
+  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.38);
+  overflow: auto;
+}
+
+dialog.modal-dialog::backdrop {
+  background-color: rgba(16, 26, 20, 0.62);
+  backdrop-filter: blur(4px);
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 22px 26px;
+  background: var(--wentworth-forest-deep);
+  color: #ffffff;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 1.22rem;
+  font-weight: 800;
+}
+
+.modal-close-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  display: grid;
+  place-items: center;
+  font-size: 1.15rem;
+}
+
+.modal-close-btn:hover {
+  background: rgba(255, 255, 255, 0.24);
+}
+
+.modal-body {
+  padding: 26px;
+}
+
+.form-grid {
+  display: grid;
+  gap: 16px;
+}
+
+.form-field {
+  display: grid;
+  gap: 6px;
+}
+
+.form-field label {
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: var(--ink-primary);
+}
+
+.form-field input,
+.form-field select,
+.form-field textarea {
+  width: 100%;
+  padding: 11px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid #cbd5cf;
+  font: inherit;
+  font-size: 0.94rem;
+  color: var(--ink-primary);
+  background: #ffffff;
+}
+
+.form-field input:focus,
+.form-field select:focus,
+.form-field textarea:focus {
+  border-color: var(--wentworth-forest);
+  outline: 2px solid rgba(61, 168, 105, 0.25);
+}
+
+.audit-list {
+  margin: 0;
+  padding-left: 20px;
+  display: grid;
+  gap: 10px;
+  font-size: 0.92rem;
+  color: var(--ink-secondary);
+}
+
+/* ==========================================================================
+   Mobile Navigation Drawer (modern-web-guidance: navigation-drawer)
+   ========================================================================== */
+
+.Drawer {
+  --drawer-width: min(21em, 82dvw, 100dvw - 24px);
+  --drawer-backdrop: 0;
+
+  inset: 0;
+  width: auto;
+  height: auto;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  overflow: visible;
+}
+
+.Drawer::backdrop {
+  background: #0b140f;
+  opacity: calc(var(--drawer-backdrop) * 0.65);
+}
+
+.Drawer-scroller {
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--drawer-width) 100%;
+  overflow-x: scroll;
+  overscroll-behavior: none;
+  scrollbar-width: none;
+  scroll-snap-type: x mandatory;
+}
+
+.Drawer-scroller::-webkit-scrollbar {
+  display: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .Drawer-scroller {
+    scroll-behavior: smooth;
+  }
+}
+
+.Drawer-scroller::after {
+  content: '';
+  scroll-snap-align: end;
+  scroll-initial-target: nearest;
+}
+
+.Drawer-sheet {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  height: 100svh;
+  background: var(--surface-dark);
+  color: #ffffff;
+  overflow-y: auto;
+  scroll-snap-align: start;
+  scrollbar-width: none;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+@supports (animation-timeline: scroll()) {
+  .Drawer {
+    timeline-scope: --drawer-fade;
+    animation: fade-drawer-backdrop linear both;
+    animation-timeline: --drawer-fade;
+  }
+
+  .Drawer-scroller {
+    scroll-timeline: --drawer-fade x;
+  }
+
+  @property --drawer-backdrop {
+    syntax: '<number>';
+    inherits: true;
+    initial-value: 0;
+  }
+
+  @keyframes fade-drawer-backdrop {
+    0% { --drawer-backdrop: 1; }
+    100% { --drawer-backdrop: 0; }
+  }
+}
+
+.drawer-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.drawer-links {
+  list-style: none;
+  margin: 0;
+  padding: 14px 12px;
+  display: grid;
+  gap: 4px;
+  align-content: start;
+}
+
+.drawer-links a {
+  display: block;
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  font-size: 0.96rem;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.drawer-links a:hover {
+  background: rgba(61, 168, 105, 0.2);
+}
+
+.drawer-footer {
+  padding: 18px 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  display: grid;
+  gap: 10px;
+}
+
+/* ==========================================================================
+   Responsive Breakpoints
+   ========================================================================== */
+
+@media (max-width: 1080px) {
+  .desktop-nav,
+  .header-portal-link {
+    display: none;
+  }
+
+  .mobile-menu-btn {
+    display: inline-flex;
+  }
+
+  .hero-grid,
+  .welcome-grid,
+  .hub-grid,
+  .class-detail-grid,
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stats-grid,
+  .values-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .staff-track {
+    grid-auto-columns: calc((100% - 24px) / 2);
+  }
+}
+
+@media (max-width: 680px) {
+  :root {
+    --header-height-initial: 74px;
+    --header-height-shrunk: 64px;
+  }
+
+  .brand-crest {
+    width: 44px;
+    height: 44px;
+  }
+
+  .brand-name {
+    font-size: 0.94rem;
+  }
+
+  .header-visit-btn {
+    display: none;
+  }
+
+  .section {
+    padding: 60px 0;
+  }
+
+  .hero {
+    padding: calc(var(--header-height-initial) + 28px) 0 56px;
+  }
+
+  .stats-grid,
+  .values-grid,
+  .quick-links-grid,
+  .timetable-grid,
+  .welcome-day-card {
+    grid-template-columns: 1fr;
+  }
+
+  .day-pill {
+    border-right: 0;
+    padding-right: 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .day-pill:last-child {
+    border-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  /* Compact horizontal pill strip for mobile class tabs (~200px vertical savings) */
+  .tabs-bar {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding-bottom: 4px;
+    margin-bottom: 20px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .tabs-bar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .tab-panel {
+    padding: 22px 18px;
+  }
+
+  /* Prevent awkward time-range wrapping on narrow mobile screens */
+  .fact-list li {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 3px;
+  }
+
+  .fact-list span {
+    text-align: left;
+  }
+
+  .staff-track {
+    grid-auto-columns: 100%;
+  }
+
+  .trust-wing-line {
+    display: none;
+  }
+
+  .scroll-top-btn {
+    right: 14px;
+    bottom: 14px;
+    width: 40px;
+    height: 40px;
+  }
+}
